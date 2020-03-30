@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-colorpicker.css" rel="stylesheet">
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-colorpicker.js"></script>
+
+    <script src="./dist/index.js"></script>
+    <script type="text/javascript">
+        var accounts = [];
+
+        function transfer() {
+
+            var x = document.getElementById("txtx").value;
+            switch(x.length) {
+                 case 0:
+                    x = "000";
+                    break;
+                 case 1:
+                    x = "00"+x;
+                    break;
+                 case 2:
+                    x = "0"+x;
+                    break;
+            }
+
+            var y = document.getElementById("txty").value;
+            switch(y.length) {
+                 case 0:
+                    y = "000";
+                    break;
+                 case 1:
+                    y = "00"+y;
+                    break;
+                 case 2:
+                    y = "0"+y;
+                    break;
+            }
+
+            var color = document.getElementById("txtcolor").value;
+            color = color.substr(1,6);
+
+            var remarkcontent = "0x1337"+x+y+color;
+
+            window.PolkadotWeb3JSSample.login().then(res => {
+                accounts = res;
+                // console.log(accounts);
+
+                if (!accounts || !accounts.length) {
+                    alert("Please login first");
+                    return;
+                }
+                window.PolkadotWeb3JSSample.remark(accounts[0].address, remarkcontent)
+                    .then((hash) => {
+                        // console.log(hash);
+                    })
+                    .catch(e => {
+                        alert(e);
+                    });
+
+            }).catch(e => {
+                console.log(e);
+                alert(e);
+            })
+
+        }
+    </script>
+    <!-- Custom CSS -->
+    <style>
+    </style>
+</head>
+
+<body style="padding-top: 70px;">
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Substrate: One Million Remarks</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+                point-x
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="txtx" placeholder="0-99">
+            </div>
+            <br><br>
+            <div class="col-md-4">
+                point-y
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="txty" placeholder="0-99">
+            </div>
+            <br><br>
+            <div class="col-md-4">
+                color
+            </div>
+            <div class="col-md-8">
+                <div id="cp2" class="input-group colorpicker-component">
+                    <input type="text" id="txtcolor" value="#00AABB" class="form-control" />
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+            </div>
+            <br><br>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-8">
+                <button type="button" class="btn btn-primary" onclick="transfer()">Draw</button>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+</body>
+
+    <script type="text/javascript">
+
+        $(function(){
+            $('#cp2').colorpicker();
+        });
+
+    </script>
+
+</html>
