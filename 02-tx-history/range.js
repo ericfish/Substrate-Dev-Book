@@ -21,5 +21,5 @@ const{ ApiPromise, WsProvider, Keyring } = require('@polkadot/api');
         console.log(`Event: ${JSON.stringify(event)}`);
     });
 
-    // process.exit()
+    process.exit()
 })()
